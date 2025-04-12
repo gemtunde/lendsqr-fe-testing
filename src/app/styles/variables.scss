@@ -1,0 +1,50 @@
+// Brand Colors
+$primary-color: #213f7d;
+$secondary-color: #39cdcc;
+$background-color: #fbfbfb;
+$white: #ffffff;
+$black: #000000;
+$red: #e4033b;
+$yellow: #e9b200;
+$green: #39cd62;
+$inactive-color: #545f7d;
+
+// Text Colors
+$text-dark: #213f7d;
+$text-light: #545f7d;
+$text-muted: #8a8b9a;
+
+// Status Colors
+$active: $green;
+$inactive: #545f7d;
+$pending: $yellow;
+$blacklisted: $red;
+
+// Border Colors
+$border-color: #eaecf0;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Shadows
+$shadow-sm:
+  0px 1px 3px rgba(16, 24, 40, 0.1),
+  0px 1px 2px rgba(16, 24, 40, 0.06);
+$shadow-md:
+  0px 4px 8px -2px rgba(16, 24, 40, 0.1),
+  0px 2px 4px -2px rgba(16, 24, 40, 0.06);
+$shadow-lg:
+  0px 12px 16px -4px rgba(16, 24, 40, 0.1),
+  0px 4px 6px -2px rgba(16, 24, 40, 0.05);

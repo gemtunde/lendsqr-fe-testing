@@ -1,16 +1,18 @@
-$primary-color: #213f7d;
-$secondary-color: #39cdcc;
-$inactive-color: #545f7d;
-$background-color: #fbfbfb;
-$sidebar-width: 260px;
+// $primary-color: #213f7d;
+// $secondary-color: #39cdcc;
+// $inactive-color: #545f7d;
+// $background-color: #fbfbfb;
+// $sidebar-width: 260px;
+@import "variables";
 
 .sidebar {
   border-right: 1px solid #e5e7eb;
-  //margin-top: 50px;
+  margin-top: 100px;
 }
 
 .sidebarContent {
   padding: 1rem 0;
+  margin-left: 1rem;
   background-color: $background-color;
 }
 
@@ -45,6 +47,7 @@ $sidebar-width: 260px;
   width: 100%;
   border-radius: 0.25rem;
   transition: all 0.2s ease;
+  margin-top: 0.5rem;
 
   &:hover {
     background-color: rgba($secondary-color, 0.05);
