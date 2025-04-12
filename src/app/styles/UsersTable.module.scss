@@ -1,8 +1,9 @@
-$primary-color: #213f7d;
-$secondary-color: #39cdcc;
-$inactive-color: #545f7d;
-$background-color: #fbfbfb;
-$card-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
+// $primary-color: #213f7d;
+// $secondary-color: #39cdcc;
+// $inactive-color: #545f7d;
+// $background-color: #fbfbfb;
+// $card-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
+@import "variables";
 
 // Status Colors
 $status-active: #39cd62;
@@ -13,6 +14,7 @@ $status-blacklisted: #e4033b;
 .tableContainer {
   width: 100%;
   overflow: auto;
+  //border-radius: 8px;
 }
 
 .filterDrawer {
@@ -44,17 +46,20 @@ $status-blacklisted: #e4033b;
   width: 100%;
   border-radius: 0.5rem;
   background-color: white;
+  padding: 12px;
+  box-shadow: $shadow-sm;
 }
 
 .tableHeader {
-  background-color: white;
+  background-color: $white;
 
   th {
     height: 3rem;
     padding: 0 1rem;
     text-align: left;
     vertical-align: middle;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 12px;
     color: $inactive-color;
   }
 

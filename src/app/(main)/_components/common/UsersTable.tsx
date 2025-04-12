@@ -7,6 +7,7 @@ import {
   Filter,
   SlidersHorizontal,
   Loader2,
+  ListFilter,
 } from "lucide-react";
 import {
   Table,
@@ -23,16 +24,18 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
-// import { useNavigate } from "react-router-dom";
-//import { useUserStorage } from "@/hooks/useUserStorage";
 // import UserFilterForm from "@/components/users/UserFilterForm";
 import styles from "../../../styles/UsersTable.module.scss";
-//import { User } from "../../home/page";
 import { useUserStorage } from "@/hooks/useUserStorage";
 import { User } from "../../users/page";
-//import type { User } from '@/pages/UsersPage';
+import UserFilterForm from "../users/UserFilterForm";
 
 interface FilterValues {
   organization?: string;
@@ -135,8 +138,13 @@ const UsersTable = ({
               <span>Filter</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className={styles.filterDrawer}>
-            {/* <UserFilterForm onFilter={handleFilter} onReset={handleReset} /> */}
+          <SheetContent
+            title="Filter"
+            side="right"
+            className={styles.filterDrawer}
+          >
+            {/* <SheetTitle>Filter</SheetTitle> */}
+            <UserFilterForm onFilter={handleFilter} onReset={handleReset} />
           </SheetContent>
         </Sheet>
       </div>
@@ -147,37 +155,37 @@ const UsersTable = ({
             <TableHead>
               <div className={styles.headerCell}>
                 ORGANIZATION
-                <Filter className="h-4 w-4" />
+                <ListFilter className="h-5 w-5" />
               </div>
             </TableHead>
             <TableHead>
               <div className={styles.headerCell}>
                 USERNAME
-                <Filter className="h-4 w-4" />
+                <ListFilter className="h-5 w-5" />
               </div>
             </TableHead>
             <TableHead>
               <div className={styles.headerCell}>
                 EMAIL
-                <Filter className="h-4 w-4" />
+                <ListFilter className="h-5 w-5" />
               </div>
             </TableHead>
             <TableHead>
               <div className={styles.headerCell}>
                 PHONE NUMBER
-                <Filter className="h-4 w-4" />
+                <ListFilter className="h-5 w-5" />
               </div>
             </TableHead>
             <TableHead>
               <div className={styles.headerCell}>
                 DATE JOINED
-                <Filter className="h-4 w-4" />
+                <ListFilter className="h-5 w-5" />
               </div>
             </TableHead>
             <TableHead>
               <div className={styles.headerCell}>
                 STATUS
-                <Filter className="h-4 w-4" />
+                <ListFilter className="h-5 w-5" />
               </div>
             </TableHead>
             <TableHead></TableHead>
