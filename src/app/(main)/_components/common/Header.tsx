@@ -1,50 +1,74 @@
-"use client";
 import { Bell, Search } from "lucide-react";
-import Image from "next/image";
-import styles from "../../../styles/header.module.scss";
-import { JSX } from "react";
-// import { Bell, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
+import styles from "../../../styles/header.module.scss";
 
-export function Header(): JSX.Element {
+const Header = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
   return (
-    // <header className={styles.header}>
-    //   <div className={styles.searchWrapper}>
-    //     <input
-    //       type="text"
-    //       placeholder="Search for anything"
-    //       className={styles.searchInput}
-    //     />
-    //     <Search className={styles.searchIcon} />
-    //   </div>
-    //   <div className={styles.userSection}>
-    //     <Bell className={styles.icon} />
-    //     <span className={styles.docsLink}>Docs</span>
-    //     <Image
-    //       src="/user-avatar.jpg"
-    //       alt="User avatar"
-    //       width={30}
-    //       height={30}
-    //       className={styles.avatar}
-    //     />
-    //     <span className={styles.username}>Adedeji</span>
-    //   </div>
-    // </header>
     <header className={styles.header}>
-      <div className={styles.searchBox}>
-        <input type="text" placeholder="Search for anything" />
-        <Search size={16} className={styles.icon} />
+      <div className={styles.leftSection}>
+        <div className={styles.logo}>
+          <SidebarTrigger className="mr-4 lg:hidden" />
+          <img
+            src="https://lendsqr.com/assets/icons/LSQ%20Logo.svg"
+            alt="Lendsqr"
+            className={styles.logoImage}
+          />
+        </div>
       </div>
+
+      <div className={styles.searchContainer}>
+        <Input
+          type="text"
+          placeholder="Search for anything"
+          className={styles.searchInput}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <Button type="submit" variant="default" className={styles.searchButton}>
+          <Search className="h-4 w-4" />
+        </Button>
+      </div>
+
       <div className={styles.rightSection}>
-        <a href="#" className={styles.link}>
+        <a href="#" className={styles.docsLink}>
           Docs
         </a>
-        <Bell className={styles.icon} />
-        <Avatar>
-          <AvatarImage src="/avatar.jpg" alt="User" />
-          <AvatarFallback>AD</AvatarFallback>
-        </Avatar>
+        <div className={styles.notificationContainer}>
+          <Bell className={styles.notificationIcon} />
+          <span className={styles.notificationBadge}></span>
+        </div>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className={styles.profileContainer}>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>AD</AvatarFallback>
+              </Avatar>
+              <span className={styles.profileName}>Adedeji</span>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem>Logout</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );
-}
+};
+
+export default Header;

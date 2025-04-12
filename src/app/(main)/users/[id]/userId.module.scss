@@ -1,0 +1,213 @@
+.container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: hsl(var(--background));
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: color 0.2s;
+
+  &:hover {
+    color: hsl(var(--foreground));
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.blacklistButton {
+  color: rgb(228, 77, 77);
+  border-color: rgb(228, 77, 77);
+  font-weight: 500;
+  font-size: 0.875rem;
+
+  &:hover {
+    background-color: rgba(228, 77, 77, 0.1);
+  }
+}
+
+.activateButton {
+  color: rgb(57, 205, 204);
+  border-color: rgb(57, 205, 204);
+  font-weight: 500;
+  font-size: 0.875rem;
+
+  &:hover {
+    background-color: rgba(57, 205, 204, 0.1);
+  }
+}
+
+.userCard {
+  margin-bottom: 2rem;
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  gap: 2.5rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
+.userProfile {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-right: 2.5rem;
+  border-right: 1px solid hsl(var(--border));
+
+  @media (max-width: 768px) {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid hsl(var(--border));
+    padding-bottom: 1.5rem;
+    width: 100%;
+  }
+}
+
+.avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+}
+
+.userMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.userName {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.userId {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.875rem;
+}
+
+.userTier {
+  padding: 0 2.5rem;
+  border-right: 1px solid hsl(var(--border));
+  min-width: 140px;
+
+  @media (max-width: 768px) {
+    border-right: none;
+    padding: 0;
+    border-bottom: 1px solid hsl(var(--border));
+    padding-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  p {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stars {
+    font-size: 1.25rem;
+    letter-spacing: 0.25rem;
+  }
+}
+
+.userBalance {
+  h3 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    color: hsl(var(--foreground));
+    margin-bottom: 0.25rem;
+  }
+
+  p {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.875rem;
+  }
+}
+
+.tabs {
+  margin-top: 2rem;
+}
+
+.tabsList {
+  background-color: transparent;
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 0;
+  margin-bottom: 2rem;
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-state="active"] {
+    color: rgb(57, 205, 204);
+    border-bottom: 2px solid rgb(57, 205, 204);
+  }
+}
+
+.tabContent {
+  margin-top: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2rem;
+}
+
+.field {
+  label {
+    display: block;
+    color: hsl(var(--muted-foreground));
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: hsl(var(--foreground));
+    font-size: 1rem;
+  }
+}

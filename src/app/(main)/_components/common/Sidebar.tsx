@@ -1,59 +1,227 @@
-"use client";
-
-import Link from "next/link";
-import { cn } from "@/lib/utils";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import {
+  Home,
+  Users,
+  UserCheck,
+  Database,
+  BarChartHorizontal,
+  PiggyBank,
+  FileText,
+  ClipboardList,
+  Settings,
+  ShieldAlert,
+  Receipt,
+  CreditCard,
+  Building,
+  Landmark,
+  ChevronDown,
+} from "lucide-react";
 import styles from "../../../styles/sidebar.module.scss";
-import { JSX } from "react";
-import { Home, Users, Settings } from "lucide-react";
-const navItems = [
-  {
-    label: "Dashboard",
-    path: "/dashboard",
-  },
-  {
-    label: "Users",
-    path: "/dashboard/users",
-  },
-  {
-    label: "Guarantors",
-    path: "/dashboard/guarantors",
-  },
-  {
-    label: "Loans",
-    path: "/dashboard/loans",
-  },
-];
+//import styles from './DashboardSidebar.module.scss';
 
-export function Sidebar(): JSX.Element {
+const DashboardSidebar = () => {
   return (
-    <aside className={styles.sidebar}>
-      <div className={styles.logo}>Lendsqr</div>
-      <nav className={styles.nav}>
-        <a href="#" className={styles.link}>
-          <Home size={18} /> Dashboard
-        </a>
-        <a href="#" className={styles.link}>
-          <Users size={18} /> Users
-        </a>
-        <a href="#" className={styles.link}>
-          <Settings size={18} /> Settings
-        </a>
-      </nav>
-    </aside>
+    <Sidebar className={styles.sidebar}>
+      <SidebarContent className={styles.sidebarContent}>
+        <SidebarGroup className={styles.sidebarGroup}>
+          <SidebarMenu className={styles.sidebarMenu}>
+            <SidebarMenuItem className={styles.sidebarMenuItem}>
+              <SidebarMenuButton asChild>
+                <button className={styles.organizationButton}>
+                  <Building className={styles.icon} />
+                  <span>Switch Organization</span>
+                  <ChevronDown className={styles.chevronIcon} />
+                </button>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
 
-    // <aside className={styles.sidebar}>
-    //   <div className={styles.logo}>lendsqr</div>
-    //   <nav>
-    //     <ul className={styles.navList}>
-    //       {navItems.map((item) => (
-    //         <li key={item.label}>
-    //           <Link href={item.path} className={styles.navItem}>
-    //             {item.label}
-    //           </Link>
-    //         </li>
-    //       ))}
-    //     </ul>
-    //   </nav>
-    // </aside>
+        <SidebarGroup className={styles.sidebarGroup}>
+          <SidebarMenu className={styles.sidebarMenu}>
+            <SidebarMenuItem className={styles.sidebarMenuItem}>
+              <SidebarMenuButton asChild>
+                <a href="/dashboard" className={styles.menuButton}>
+                  <Home className={styles.icon} />
+                  <span>Dashboard</span>
+                </a>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className={styles.sidebarGroupLabel}>
+            Customers
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className={styles.sidebarMenu}>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a
+                    href="/users"
+                    className={`${styles.menuButton} ${styles.active}`}
+                  >
+                    <Users className={styles.icon} />
+                    <span>Users</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/guarantors" className={styles.menuButton}>
+                    <UserCheck className={styles.icon} />
+                    <span>Guarantors</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/loans" className={styles.menuButton}>
+                    <Database className={styles.icon} />
+                    <span>Loans</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/decision-models" className={styles.menuButton}>
+                    <BarChartHorizontal className={styles.icon} />
+                    <span>Decision Models</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/savings" className={styles.menuButton}>
+                    <PiggyBank className={styles.icon} />
+                    <span>Savings</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/loan-requests" className={styles.menuButton}>
+                    <FileText className={styles.icon} />
+                    <span>Loan Requests</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/whitelist" className={styles.menuButton}>
+                    <UserCheck className={styles.icon} />
+                    <span>Whitelist</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/karma" className={styles.menuButton}>
+                    <UserCheck className={`${styles.icon} text-red-500`} />
+                    <span>Karma</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className={styles.sidebarGroupLabel}>
+            Businesses
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className={styles.sidebarMenu}>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/organization" className={styles.menuButton}>
+                    <Building className={styles.icon} />
+                    <span>Organization</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/loan-products" className={styles.menuButton}>
+                    <CreditCard className={styles.icon} />
+                    <span>Loan Products</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/savings-products" className={styles.menuButton}>
+                    <Landmark className={styles.icon} />
+                    <span>Savings Products</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/fees" className={styles.menuButton}>
+                    <ClipboardList className={styles.icon} />
+                    <span>Fees and Charges</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/transactions" className={styles.menuButton}>
+                    <Receipt className={styles.icon} />
+                    <span>Transactions</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className={styles.sidebarGroupLabel}>
+            Settings
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className={styles.sidebarMenu}>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/preferences" className={styles.menuButton}>
+                    <Settings className={styles.icon} />
+                    <span>Preferences</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/fees-pricing" className={styles.menuButton}>
+                    <ClipboardList className={styles.icon} />
+                    <span>Fees and Pricing</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem className={styles.sidebarMenuItem}>
+                <SidebarMenuButton asChild>
+                  <a href="/audit-logs" className={styles.menuButton}>
+                    <ShieldAlert className={styles.icon} />
+                    <span>Audit Logs</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+    </Sidebar>
   );
-}
+};
+
+export default DashboardSidebar;

@@ -4,8 +4,11 @@ import { JSX, ReactNode } from "react";
 // import { Sidebar } from "@/components/ui/sidebar";
 // import { Header } from "@/components/ui/header";
 import styles from "../styles/main-layout.module.scss";
-import { Sidebar } from "./_components/common/Sidebar";
-import { Header } from "./_components/common/Header";
+//import { Sidebar } from "./_components/common/Sidebar";
+import Header from "./_components/common/Header";
+import DashboardSidebar from "./_components/common/Sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+//import { Header } from "./_components/common/Header";
 
 export default function MainLayout({
   children,
@@ -13,13 +16,22 @@ export default function MainLayout({
   children: ReactNode;
 }): JSX.Element {
   return (
-    <div className={styles.layout}>
-      <Sidebar />
-      <div className={styles.mainArea}>
+    <SidebarProvider>
+      <div className={styles.dashboardWrapper}>
         <Header />
-        <main className={styles.mainContent}>{children}</main>
+        <div className="flex flex-grow">
+          <DashboardSidebar />
+          <main className={styles.mainContent}>{children}</main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
+    // <div className={styles.layout}>
+    //   <DashboardSidebar />
+    //   <div className={styles.mainArea}>
+    //     <Header />
+    //     <main className={styles.mainContent}>{children}</main>
+    //   </div>
+    // </div>
     // <div className={styles.dashboardContainer}>
     //   <Sidebar />
     //   <div className={styles.mainSection}>

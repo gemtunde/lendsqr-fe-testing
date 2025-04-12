@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Filter,
+  SlidersHorizontal,
 } from "lucide-react";
 import {
   Table,
@@ -20,8 +21,16 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import styles from "../../../styles/UsersTable.module.scss";
+import UserFilterForm from "../users/UserFilterForm";
 // import styles from './UsersTable.module.scss';
 
 interface User {
@@ -32,19 +41,95 @@ interface User {
   dateJoined: string;
   status: "Active" | "Inactive" | "Pending" | "Blacklisted";
 }
+interface FilterValues {
+  organization?: string;
+  username?: string;
+  email?: string;
+  date?: Date | null;
+  phoneNumber?: string;
+  status?: string;
+}
 
 const UsersTable = ({ users }: { users: User[] }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(100);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>(users);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const totalPages = Math.ceil(users.length / rowsPerPage);
-  const paginatedUsers = users.slice(
+  const totalPages = Math.ceil(filteredUsers.length / rowsPerPage);
+  const paginatedUsers = filteredUsers.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
 
+  const handleFilter = (values: FilterValues) => {
+    const filtered = users.filter((user) => {
+      // Only apply filters for fields that have values
+      if (
+        values.organization &&
+        user.organization.toLowerCase() !== values.organization.toLowerCase()
+      )
+        return false;
+      if (
+        values.username &&
+        !user.username.toLowerCase().includes(values.username.toLowerCase())
+      )
+        return false;
+      if (
+        values.email &&
+        !user.email.toLowerCase().includes(values.email.toLowerCase())
+      )
+        return false;
+      if (values.phoneNumber && !user.phoneNumber.includes(values.phoneNumber))
+        return false;
+      if (
+        values.status &&
+        user.status.toLowerCase() !== values.status.toLowerCase()
+      )
+        return false;
+      if (values.date) {
+        const userDateString = user.dateJoined.split(" ")[0];
+        const filterDate = values.date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+        if (!userDateString.includes(filterDate.split(",")[0])) return false;
+      }
+      return true;
+    });
+
+    setFilteredUsers(filtered);
+    setIsFilterOpen(false);
+  };
+
+  const handleReset = () => {
+    setFilteredUsers(users);
+    setIsFilterOpen(false);
+  };
+
   return (
     <div className={styles.tableContainer}>
+      <div className={styles.tableActions}>
+        <Sheet open={isFilterOpen} onOpenChange={setIsFilterOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" className={styles.filterButton}>
+              <SlidersHorizontal className="h-4 w-4" />
+              <span>Filter</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className={styles.filterDrawer}>
+            <SheetHeader>
+              <SheetTitle>
+                {/* Option 2: Accessible but hidden title */}
+                {/* <VisuallyHidden>Filter Users</VisuallyHidden> */}
+              </SheetTitle>
+            </SheetHeader>
+            <UserFilterForm onFilter={handleFilter} onReset={handleReset} />
+          </SheetContent>
+        </Sheet>
+      </div>
+
       <Table className={styles.table}>
         <TableHeader className={styles.tableHeader}>
           <TableRow>
@@ -150,7 +235,7 @@ const UsersTable = ({ users }: { users: User[] }) => {
             </select>
             <ChevronDown className={styles.chevronIcon} size={12} />
           </div>
-          <span>out of 100</span>
+          <span>out of {filteredUsers.length}</span>
         </div>
 
         <div className={styles.paginationControls}>
