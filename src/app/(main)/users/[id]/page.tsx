@@ -11,6 +11,11 @@ import { useParams, useRouter } from "next/navigation";
 import { useUserStorage } from "@/hooks/useUserStorage";
 import { useEffect, useState } from "react";
 import { User } from "../page";
+import {
+  formatAmountWithCurrency,
+  getInitials,
+  getStars,
+} from "@/utils/helper";
 
 export default function UserDetailsPage() {
   const { id } = useParams<{ id: string }>();
@@ -86,10 +91,12 @@ export default function UserDetailsPage() {
             <div className={styles.userProfile}>
               <Avatar className={styles.avatar}>
                 <AvatarImage
-                  src="/placeholder-avatar.jpg"
+                  src="/placeholder.png"
                   alt={user?.username || "N/A"}
                 />
-                <AvatarFallback>GE</AvatarFallback>
+                <AvatarFallback className={styles.avatar}>
+                  {getInitials(user?.username)}
+                </AvatarFallback>
               </Avatar>
               <div className={styles.userMeta}>
                 <h2 className={styles.userName}>{user.username || "N/A"}</h2>
@@ -98,10 +105,10 @@ export default function UserDetailsPage() {
             </div>
             <div className={styles.userTier}>
               <p>User's Tier</p>
-              <div className={styles.stars}>⭐️☆☆</div>
+              <div className={styles.stars}>{getStars(4)}</div>
             </div>
             <div className={styles.userBalance}>
-              <h3>₦200,000.00</h3>
+              <h3>{formatAmountWithCurrency(345000)}</h3>
               <p>9912345678/Providus Bank</p>
             </div>
           </div>
@@ -186,11 +193,18 @@ export default function UserDetailsPage() {
               </div>
               <div className={styles.field}>
                 <label>MONTHLY INCOME</label>
-                <p>{user?.education?.monthlyIncome || "N/A"}</p>
+                <p>
+                  {formatAmountWithCurrency(
+                    user?.education?.monthlyIncome as number
+                  ) || "N/A"}
+                </p>
               </div>
               <div className={styles.field}>
                 <label>LOAN REPAYMENT</label>
-                <p>{user?.education?.loan || "N/A"}</p>
+                <p>
+                  {formatAmountWithCurrency(user?.education?.loan as number) ||
+                    "N/A"}
+                </p>
               </div>
             </CardContent>
           </div>
