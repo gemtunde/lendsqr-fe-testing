@@ -68,7 +68,8 @@
 .userCard {
   margin-bottom: 2rem;
   background-color: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
+  border: none;
+  // border: 1px solid hsl(var(--border));
 }
 
 .userInfo {
@@ -189,11 +190,19 @@
 .tabContent {
   margin-top: 2rem;
 }
-
+.cardContainer {
+  border: none;
+  margin-top: 8px;
+  padding: 8px;
+  // background-color: bisque;
+  border-bottom: 1px solid #f1f1f1;
+}
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 2rem;
+  border: none;
+  // background-color: aquamarine;
 }
 
 .field {

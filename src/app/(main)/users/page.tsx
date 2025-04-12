@@ -3,85 +3,63 @@ import React from "react";
 import { Users, Users2, PiggyBank, DatabaseIcon } from "lucide-react";
 import UsersTable from "../_components/common/UsersTable";
 import UserStatsCard from "../_components/common/UserStatsCard";
-
 import styles from "../../styles/home.module.scss";
-//import styles from "../../../styles/home.module.scss";
-const mockUsers = [
-  {
-    organization: "Lendsqr",
-    username: "Adedeji",
-    email: "adedeji@lendsqr.com",
-    phoneNumber: "08078903721",
-    dateJoined: "May 15, 2020 10:00 AM",
-    status: "Inactive" as const,
-  },
-  {
-    organization: "Irorun",
-    username: "Debby Ogana",
-    email: "debby2@irorun.com",
-    phoneNumber: "08160780928",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Pending" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Blacklisted" as const,
-  },
-  {
-    organization: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "07003309226",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Pending" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Active" as const,
-  },
-  {
-    organization: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "08060780900",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Active" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Blacklisted" as const,
-  },
-  {
-    organization: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "08060780900",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Inactive" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Inactive" as const,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { fetchUsers } from "@/services/useServices";
+
+export type Status = "Active" | "Inactive" | "Pending" | "Blacklisted";
+export type Gender = "male" | "female";
+export type MaritalStatus = "single" | "married";
+export type Residence = "Parent Apartment" | "Rented Apartment" | "Owned Home";
+export interface Education {
+  level: string;
+  employmentStatus: string;
+  sector: string;
+  duration: string;
+  officialEmail: string;
+  monthlyIncome: number;
+  loan: number;
+}
+
+export interface Socials {
+  twitter: string;
+  facebook: string;
+  instagram: string;
+}
+
+export interface Guarantor {
+  fullName: string;
+  email: string;
+  phoneNumber: number;
+  relationShip: string;
+}
+
+export interface User {
+  id: string;
+  organization: string;
+  username: string;
+  email: string;
+  phoneNumber: string;
+  dateJoined: string;
+  bvn: number;
+  gender: Gender;
+  maritalStatus: MaritalStatus;
+  children: number;
+  residence?: Residence;
+  status: Status;
+  education?: Education;
+  socials?: Socials;
+  guarantor?: Guarantor[];
+}
 
 const UsersPage = () => {
+  const { data, isLoading } = useQuery<User[], Error>({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+  });
+  console.log("DATA===>", data);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Users</h1>
@@ -113,7 +91,7 @@ const UsersPage = () => {
         />
       </div>
 
-      <UsersTable users={mockUsers} />
+      <UsersTable users={data ?? []} loading={isLoading} />
     </div>
   );
 };

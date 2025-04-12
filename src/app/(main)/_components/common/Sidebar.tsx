@@ -50,7 +50,7 @@ const DashboardSidebar = () => {
           <SidebarMenu className={styles.sidebarMenu}>
             <SidebarMenuItem className={styles.sidebarMenuItem}>
               <SidebarMenuButton asChild>
-                <a href="/dashboard" className={styles.menuButton}>
+                <a href="/home" className={styles.menuButton}>
                   <Home className={styles.icon} />
                   <span>Dashboard</span>
                 </a>

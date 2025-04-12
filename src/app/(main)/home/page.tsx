@@ -3,85 +3,20 @@ import React from "react";
 import { Users, Users2, PiggyBank, DatabaseIcon } from "lucide-react";
 import UsersTable from "../_components/common/UsersTable";
 import UserStatsCard from "../_components/common/UserStatsCard";
-
+import { useQuery } from "@tanstack/react-query";
 import styles from "../../styles/home.module.scss";
-//import styles from "../../../styles/home.module.scss";
-const mockUsers = [
-  {
-    organization: "Lendsqr",
-    username: "Adedeji",
-    email: "adedeji@lendsqr.com",
-    phoneNumber: "08078903721",
-    dateJoined: "May 15, 2020 10:00 AM",
-    status: "Inactive" as const,
-  },
-  {
-    organization: "Irorun",
-    username: "Debby Ogana",
-    email: "debby2@irorun.com",
-    phoneNumber: "08160780928",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Pending" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Blacklisted" as const,
-  },
-  {
-    organization: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "07003309226",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Pending" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Active" as const,
-  },
-  {
-    organization: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "08060780900",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Active" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Blacklisted" as const,
-  },
-  {
-    organization: "Lendsqr",
-    username: "Tosin Dokunmu",
-    email: "tosin@lendsqr.com",
-    phoneNumber: "08060780900",
-    dateJoined: "Apr 10, 2020 10:00 AM",
-    status: "Inactive" as const,
-  },
-  {
-    organization: "Lendstar",
-    username: "Grace Effiom",
-    email: "grace@lendstar.com",
-    phoneNumber: "07060780922",
-    dateJoined: "Apr 30, 2020 10:00 AM",
-    status: "Inactive" as const,
-  },
-];
+import { fetchUsers } from "@/services/useServices";
+import { User } from "../users/page";
 
 const Home = () => {
+  const { data, isLoading } = useQuery<User[], Error>({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+    // refetchOnWindowFocus: false,
+    // refetchOnMount: false,
+  });
+
+  console.log("Data from API:", data);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Users</h1>
@@ -113,7 +48,7 @@ const Home = () => {
         />
       </div>
 
-      <UsersTable users={mockUsers} />
+      <UsersTable users={data ?? []} loading={isLoading} />
     </div>
   );
 };
