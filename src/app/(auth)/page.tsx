@@ -4,12 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import styles from "../styles/login.scss";
 import styles from "../styles/login.module.scss";
-import { FormEvent, JSX } from "react";
+import { FormEvent } from "react";
 // import SignInImage from "@/assets/images/pablo-sign-in.png";
 // import Logo from "@/assets/images/logo.png";
 // import Image from "next/image";
 
-export default function LoginPage(): JSX.Element {
+export default function LoginPage() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // handle login logic here
