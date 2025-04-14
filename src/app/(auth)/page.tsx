@@ -1,37 +1,72 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-// import styles from "../styles/login.scss";
-import styles from "../styles/login.module.scss";
-import { FormEvent } from "react";
-// import SignInImage from "@/assets/images/pablo-sign-in.png";
-// import Logo from "@/assets/images/logo.png";
-// import Image from "next/image";
+import styles from "./login.module.scss";
+import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { loginMutationFn } from "@/services/authServices";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { ArrowRight, Loader } from "lucide-react";
 
 export default function LoginPage() {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // handle login logic here
+  const router = useRouter();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginMutationFn,
+  });
+  const formSchema = z.object({
+    email: z.string().trim().email().min(1, {
+      message: "Email is required",
+    }),
+    password: z.string().trim().min(1, {
+      message: "Password is required",
+    }),
+  });
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    mutate(values, {
+      onSuccess: (res) => {
+        toast(res.data.message);
+        router.replace("/home");
+      },
+      onError: (error) => {
+        toast(error.message);
+      },
+    });
   };
 
   return (
     <div className={styles.loginContainer}>
       <div className={styles.leftSection}>
         <div className={styles.logoWrapper}>
-          {/* <img src="/Group.png" alt="Lendsqr Logo" className={styles.logo} /> */}
           {/* <Image src={Logo} alt="Logo" className={styles.logo} /> */}
           <img
             src="/assets/images/logo.png"
+            // src="https://lendsqr.com/assets/icons/LSQ%20Logo.svg"
             alt="Logo"
             className={styles.logo}
           />
         </div>
-        {/* <Image
-          src={SignInImage}
-          alt="Welcome Illustration"
-          className={styles.illustration}
-        /> */}
+
         <img
           src="/assets/images/pablo-sign-in.png"
           alt="Logo"
@@ -40,26 +75,64 @@ export default function LoginPage() {
       </div>
       <div className={styles.rightSection}>
         <div className={styles.formCard}>
-          <h1 className={styles.heading}>Welcome!</h1>
-          <p className={styles.subtext}>Enter details to login.</p>
-          <form className={styles.form} onSubmit={handleSubmit}>
-            <Input
-              type="email"
-              placeholder="Email"
-              className={styles.input}
-              required
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              className={styles.input}
-              required
-            />
-            <div className={styles.forgotPassword}>FORGOT PASSWORD?</div>
-            <Button type="submit" className={styles.loginButton}>
-              LOG IN
-            </Button>
-          </form>
+          <h1 className={styles.heading}>Login</h1>
+          <p className={styles.subtext}>Enter details to Login.</p>
+          <Form {...form}>
+            <form
+              className={styles.form}
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className={styles.input}
+                        placeholder="subscribeto@lendsqr.com"
+                        autoComplete="off"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className={styles.input}
+                        type="password"
+                        placeholder="****"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div
+                className={styles.forgotPassword}
+                onClick={() => router.replace("/signup")}
+              >
+                Register
+              </div>
+              <Button
+                disabled={isPending}
+                type="submit"
+                className={styles.loginButton}
+              >
+                LOGIN
+                {isPending && <Loader className="animate-spin" />}
+                <ArrowRight />
+              </Button>
+            </form>
+          </Form>
         </div>
       </div>
     </div>

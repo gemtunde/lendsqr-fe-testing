@@ -44,10 +44,6 @@ export const fetchUsers = async (): Promise<User[]> => {
       education: user?.education,
       socials: user?.socials,
       guarantor: user?.guarantor,
-      // address: user.address || "Unknown",
-      // country: user.country || "Unknown",
-      // state: user.state || "Unknown",
-      // city: user.city || "Unknown",
     }));
   } catch (error) {
     console.error("Error fetching users:", error);
