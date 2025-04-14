@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from "react";
 import styles from "../../../styles/header.module.scss";
 import Image from "next/image";
+import { useUser } from "@/context/auth-provider";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,6 +24,7 @@ const Header = () => {
       setLogoSrc(envLogo);
     }
   }, []);
+  const { user } = useUser();
   return (
     <header className={styles.header}>
       <div className={styles.leftSection}>
@@ -67,7 +69,11 @@ const Header = () => {
                 <AvatarImage src="https://github.com/shadcn.png" />
                 <AvatarFallback>AD</AvatarFallback>
               </Avatar>
-              <span className={styles.profileName}>Adedeji</span>
+              {user?.name ? (
+                <span className={styles.profileName}>{user?.name}</span>
+              ) : (
+                <span className={styles.profileName}>Lendsqr</span>
+              )}
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">

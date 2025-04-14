@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ArrowRight, Eye, EyeOff, Loader } from "lucide-react";
 import { useState } from "react";
+import { useUser } from "@/context/auth-provider";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -41,6 +42,8 @@ export default function LoginPage() {
     }),
   });
 
+  const { setUser } = useUser();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,6 +56,8 @@ export default function LoginPage() {
     mutate(values, {
       onSuccess: (res) => {
         toast.success(res.data.message);
+        const { name, email, isEmailVerified } = res.data.loginUser;
+        setUser({ name, email, isEmailVerified });
         router.replace("/home");
       },
       onError: (error) => {
@@ -106,23 +111,7 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              {/* <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        className={styles.input}
-                        type={showPassword ? "text" : "password"}
-                        placeholder="****"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              /> */}
+
               <FormField
                 control={form.control}
                 name="password"
