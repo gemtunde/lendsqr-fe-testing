@@ -42,6 +42,10 @@ export interface User {
   phoneNumber: string;
   dateJoined: string;
   bvn: number;
+  accountBalance: number;
+  accountNumber: number;
+  bankName: string;
+  imageLink?: string;
   gender: Gender;
   maritalStatus: MaritalStatus;
   children: number;

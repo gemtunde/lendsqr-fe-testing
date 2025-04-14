@@ -1,10 +1,9 @@
 "use client";
 
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { ChevronLeft, UserIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import styles from "./userId.module.scss";
 import { useParams, useRouter } from "next/navigation";
@@ -16,15 +15,16 @@ import {
   getInitials,
   getStars,
 } from "@/utils/helper";
+import { toast } from "sonner";
 
 export default function UserDetailsPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  //const navigate = useNavigate();
   const { getUser } = useUserStorage();
-  // const { toast } = useToast();
+
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("general");
 
   useEffect(() => {
     if (!id) {
@@ -37,11 +37,7 @@ export default function UserDetailsPage() {
     if (storedUser) {
       setUser(storedUser);
     } else {
-      //   toast({
-      //     title: "User not found",
-      //     description: "We couldn't find details for this user.",
-      //     variant: "destructive",
-      //   });
+      toast.error("We couldn't find details for this user.");
     }
     setLoading(false);
   }, [id, getUser, router]);
@@ -55,6 +51,17 @@ export default function UserDetailsPage() {
     );
   }
 
+  const handleStatusChange = (newStatus: "Active" | "Blacklisted") => {
+    if (user) {
+      const updatedUser = { ...user, status: newStatus };
+      setUser(updatedUser);
+
+      toast(
+        `User has been successfully ${newStatus === "Blacklisted" ? "blacklisted" : "activated"}.`
+      );
+    }
+  };
+
   if (!user) {
     return (
       <div className={styles.errorContainer}>
@@ -67,195 +74,263 @@ export default function UserDetailsPage() {
 
   return (
     <div className={styles.container}>
+      <button
+        className={styles.backButton}
+        onClick={() => router.push("/users")}
+      >
+        <ChevronLeft className="h-4 w-4" />
+        <span>Back to Users</span>
+      </button>
+
       <div className={styles.header}>
-        <div className={styles.headerLeft}>
-          <Link href="/users" className={styles.backLink}>
-            <ArrowLeft className="h-4 w-4" />
-            <span>Back to Users</span>
-          </Link>
-          <h1 className={styles.title}>User Details</h1>
-        </div>
+        <h1 className={styles.title}>User Details</h1>
         <div className={styles.actions}>
-          <Button variant="outline" className={styles.blacklistButton}>
-            BLACKLIST USER
-          </Button>
-          <Button variant="outline" className={styles.activateButton}>
+          <Button
+            variant="outline"
+            className={styles.activateButton}
+            onClick={() => handleStatusChange("Active")}
+          >
             ACTIVATE USER
+          </Button>
+
+          <Button
+            variant="outline"
+            className={styles.blacklistButton}
+            onClick={() => handleStatusChange("Blacklisted")}
+          >
+            BLACKLIST USER
           </Button>
         </div>
       </div>
 
-      <Card className={styles.userCard}>
-        <CardContent>
-          <div className={styles.userInfo}>
-            <div className={styles.userProfile}>
-              <Avatar className={styles.avatar}>
-                <AvatarImage
-                  src="/placeholder.png"
-                  alt={user?.username || "N/A"}
-                />
-                <AvatarFallback className={styles.avatar}>
-                  {getInitials(user?.username)}
-                </AvatarFallback>
-              </Avatar>
-              <div className={styles.userMeta}>
-                <h2 className={styles.userName}>{user.username || "N/A"}</h2>
-                <p className={styles.userId}> {user?.id || "N/A"}</p>
-              </div>
+      <div className={styles.userProfileCard}>
+        <CardContent className={styles.userProfileContent}>
+          <div className={styles.userProfileHeader}>
+            <div className={styles.userAvatar}>
+              <UserIcon className="h-10 w-10" />
+            </div>
+            <div className={styles.userBasicInfo}>
+              <h2 className={styles.userName}>{user.username}</h2>
+              <p className={styles.userCode}>{user.id}</p>
             </div>
             <div className={styles.userTier}>
               <p>User's Tier</p>
               <div className={styles.stars}>{getStars(4)}</div>
             </div>
             <div className={styles.userBalance}>
-              <h3>{formatAmountWithCurrency(345000)}</h3>
-              <p>9912345678/Providus Bank</p>
+              <h3>{user.accountBalance || "₦0.00"}</h3>
+              <p>
+                {user.accountNumber || "No account"}/
+                {user.bankName || "No bank"}
+              </p>
             </div>
           </div>
+
+          <Tabs defaultValue="general" className={styles.tabs}>
+            <TabsList className={styles.tabsList}>
+              <TabsTrigger
+                value="general"
+                className={activeTab === "general" ? styles.activeTab : ""}
+                onClick={() => setActiveTab("general")}
+              >
+                General Details
+              </TabsTrigger>
+              <TabsTrigger
+                value="documents"
+                className={activeTab === "documents" ? styles.activeTab : ""}
+                onClick={() => setActiveTab("documents")}
+              >
+                Documents
+              </TabsTrigger>
+              <TabsTrigger
+                value="bank"
+                className={activeTab === "bank" ? styles.activeTab : ""}
+                onClick={() => setActiveTab("bank")}
+              >
+                Bank Details
+              </TabsTrigger>
+              <TabsTrigger
+                value="loans"
+                className={activeTab === "loans" ? styles.activeTab : ""}
+                onClick={() => setActiveTab("loans")}
+              >
+                Loans
+              </TabsTrigger>
+              <TabsTrigger
+                value="savings"
+                className={activeTab === "savings" ? styles.activeTab : ""}
+                onClick={() => setActiveTab("savings")}
+              >
+                Savings
+              </TabsTrigger>
+              <TabsTrigger
+                value="app"
+                className={activeTab === "app" ? styles.activeTab : ""}
+                onClick={() => setActiveTab("app")}
+              >
+                App and System
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="general" className={styles.tabContent}>
+              <div className={styles.infoSection}>
+                <h3 className={styles.sectionTitle}>Personal Information</h3>
+                <div className={styles.infoGrid}>
+                  <div className={styles.infoItem}>
+                    <h4>FULL NAME</h4>
+                    <p>{user.username}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>PHONE NUMBER</h4>
+                    <p>{user.phoneNumber}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>EMAIL ADDRESS</h4>
+                    <p>{user.email}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>BVN</h4>
+                    <p>{user.bvn}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>GENDER</h4>
+                    <p>{user.gender === "male" ? "Male" : "Female"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>MARITAL STATUS</h4>
+                    <p>
+                      {user.maritalStatus === "single" ? "Single" : "Married"}
+                    </p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>CHILDREN</h4>
+                    <p>{user.children === 0 ? "None" : user.children}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>TYPE OF RESIDENCE</h4>
+                    <p>{user.residence}</p>
+                  </div>
+                </div>
+                <hr className={styles.borderLine} />
+              </div>
+
+              <div className={styles.infoSection}>
+                <h3 className={styles.sectionTitle}>
+                  Education and Employment
+                </h3>
+                <div className={styles.infoGrid}>
+                  <div className={styles.infoItem}>
+                    <h4>LEVEL OF EDUCATION</h4>
+                    <p>{user.education?.level || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>EMPLOYMENT STATUS</h4>
+                    <p>{user.education?.employmentStatus || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>SECTOR OF EMPLOYMENT</h4>
+                    <p>{user.education?.sector || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>DURATION OF EMPLOYMENT</h4>
+                    <p>{user.education?.duration || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>OFFICE EMAIL</h4>
+                    <p>{user.education?.officialEmail || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>MONTHLY INCOME</h4>
+                    <p>{user.education?.monthlyIncome || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>LOAN REPAYMENT</h4>
+                    <p>{user.education?.loan || "N/A"}</p>
+                  </div>
+                </div>
+                <hr className={styles.borderLine} />
+              </div>
+
+              <div className={styles.infoSection}>
+                <h3 className={styles.sectionTitle}>Socials</h3>
+                <div className={styles.infoGrid}>
+                  <div className={styles.infoItem}>
+                    <h4>TWITTER</h4>
+                    <p>{user.socials?.twitter || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>FACEBOOK</h4>
+                    <p>{user.socials?.facebook || "N/A"}</p>
+                  </div>
+                  <div className={styles.infoItem}>
+                    <h4>INSTAGRAM</h4>
+                    <p>{user.socials?.instagram || "N/A"}</p>
+                  </div>
+                </div>
+                <hr className={styles.borderLine} />
+              </div>
+
+              <div className={styles.infoSection}>
+                <h3 className={styles.sectionTitle}>Guarantor</h3>
+                {user.guarantor &&
+                  user.guarantor.map((guarantor, index) => (
+                    <div key={index} className={styles.guarantorSection}>
+                      <div className={styles.infoGrid}>
+                        <div className={styles.infoItem}>
+                          <h4>FULL NAME</h4>
+                          <p>{guarantor.fullName}</p>
+                        </div>
+                        <div className={styles.infoItem}>
+                          <h4>PHONE NUMBER</h4>
+                          <p>{guarantor.phoneNumber}</p>
+                        </div>
+                        <div className={styles.infoItem}>
+                          <h4>EMAIL ADDRESS</h4>
+                          <p>{guarantor.email}</p>
+                        </div>
+                        <div className={styles.infoItem}>
+                          <h4>RELATIONSHIP</h4>
+                          <p>{guarantor.relationShip}</p>
+                        </div>
+                      </div>
+                      {/* {index < user.guarantor.length - 1 && <div className={styles.guarantorDivider} />} */}
+                    </div>
+                  ))}
+              </div>
+            </TabsContent>
+
+            <TabsContent value="documents">
+              <div className={styles.emptyTab}>
+                <p>Documents information will be available soon.</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="bank">
+              <div className={styles.emptyTab}>
+                <p>Bank details information will be available soon.</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="loans">
+              <div className={styles.emptyTab}>
+                <p>Loans information will be available soon.</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="savings">
+              <div className={styles.emptyTab}>
+                <p>Savings information will be available soon.</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="app">
+              <div className={styles.emptyTab}>
+                <p>App and System information will be available soon.</p>
+              </div>
+            </TabsContent>
+          </Tabs>
         </CardContent>
-      </Card>
-
-      <Tabs defaultValue="general" className={styles.tabs}>
-        <TabsList className={styles.tabsList}>
-          <TabsTrigger value="general">General Details</TabsTrigger>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="bank">Bank Details</TabsTrigger>
-          <TabsTrigger value="loans">Loans</TabsTrigger>
-          <TabsTrigger value="savings">Savings</TabsTrigger>
-          <TabsTrigger value="app">App and System</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="general" className={styles.tabContent}>
-          <div className={styles.cardContainer}>
-            <CardHeader>
-              <CardTitle>Personal Information</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.grid}>
-              <div className={styles.field}>
-                <label>FULL NAME</label>
-                <p>{user?.username || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>PHONE NUMBER</label>
-                <p>{user?.phoneNumber || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>EMAIL ADDRESS</label>
-                <p>{user?.email || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>BVN</label>
-                <p>{user?.bvn || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>GENDER</label>
-                <p>{user?.gender || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>MARITAL STATUS</label>
-                <p>{user?.maritalStatus || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>CHILDREN</label>
-                <p>{user?.children || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>TYPE OF RESIDENCE</label>
-                <p>{user?.residence || "N/A"}</p>
-              </div>
-            </CardContent>
-          </div>
-
-          <div className={styles.cardContainer}>
-            <CardHeader>
-              <CardTitle>Education and Employment</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.grid}>
-              <div className={styles.field}>
-                <label>LEVEL OF EDUCATION</label>
-                <p>{user?.education?.level || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>EMPLOYMENT STATUS</label>
-                <p>{user?.education?.employmentStatus || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>SECTOR OF EMPLOYMENT</label>
-                <p>{user?.education?.sector || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>DURATION OF EMPLOYMENT</label>
-                <p>{user?.education?.duration || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>OFFICE EMAIL</label>
-                <p>{user?.education?.officialEmail || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>MONTHLY INCOME</label>
-                <p>
-                  {formatAmountWithCurrency(
-                    user?.education?.monthlyIncome as number
-                  ) || "N/A"}
-                </p>
-              </div>
-              <div className={styles.field}>
-                <label>LOAN REPAYMENT</label>
-                <p>
-                  {formatAmountWithCurrency(user?.education?.loan as number) ||
-                    "N/A"}
-                </p>
-              </div>
-            </CardContent>
-          </div>
-
-          <div className={styles.cardContainer}>
-            <CardHeader>
-              <CardTitle>Socials</CardTitle>
-            </CardHeader>
-            <CardContent className={styles.grid}>
-              <div className={styles.field}>
-                <label>TWITTER</label>
-                <p>{user?.socials?.twitter || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>FACEBOOK</label>
-                <p>{user?.socials?.facebook || "N/A"}</p>
-              </div>
-              <div className={styles.field}>
-                <label>INSTAGRAM</label>
-                <p>{user?.socials?.instagram || "N/A"}</p>
-              </div>
-            </CardContent>
-          </div>
-
-          <div className={styles.cardContainer}>
-            <CardHeader>
-              <CardTitle>Guarantor</CardTitle>
-            </CardHeader>
-            {user?.guarantor?.map((person, index) => (
-              <CardContent className={styles.grid} key={index}>
-                <div className={styles.field}>
-                  <label>FULL NAME</label>
-                  <p>{person?.fullName || "N/A"}</p>
-                </div>
-                <div className={styles.field}>
-                  <label>PHONE NUMBER</label>
-                  <p>{person?.phoneNumber || "N/A"}</p>
-                </div>
-                <div className={styles.field}>
-                  <label>EMAIL ADDRESS</label>
-                  <p>{person?.email || "N/A"}</p>
-                </div>
-                <div className={styles.field}>
-                  <label>RELATIONSHIP</label>
-                  <p>{person?.relationShip || "N/A"}</p>
-                </div>
-              </CardContent>
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+      </div>
     </div>
   );
 }

@@ -9,20 +9,30 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../../styles/header.module.scss";
+import Image from "next/image";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [logoSrc, setLogoSrc] = useState("/assets/images/logo.png");
 
+  useEffect(() => {
+    const envLogo = process.env.NEXT_PUBLIC_LOGO_URL;
+    if (envLogo) {
+      setLogoSrc(envLogo);
+    }
+  }, []);
   return (
     <header className={styles.header}>
       <div className={styles.leftSection}>
         <div className={styles.logo}>
           <SidebarTrigger className="mr-4 lg:hidden" />
-          <img
-            src="https://lendsqr.com/assets/icons/LSQ%20Logo.svg"
+          <Image
+            src={logoSrc}
             alt="Lendsqr"
+            width={140}
+            height={50}
             className={styles.logoImage}
           />
         </div>

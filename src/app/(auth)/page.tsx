@@ -17,10 +17,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { ArrowRight, Loader } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Loader } from "lucide-react";
+import { useState } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: loginMutationFn,
@@ -45,11 +52,11 @@ export default function LoginPage() {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     mutate(values, {
       onSuccess: (res) => {
-        toast(res.data.message);
+        toast.success(res.data.message);
         router.replace("/home");
       },
       onError: (error) => {
-        toast(error.message);
+        toast.error(error.message);
       },
     });
   };
@@ -99,7 +106,7 @@ export default function LoginPage() {
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="password"
                 render={({ field }) => (
@@ -107,7 +114,7 @@ export default function LoginPage() {
                     <FormControl>
                       <Input
                         className={styles.input}
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="****"
                         {...field}
                       />
@@ -115,12 +122,43 @@ export default function LoginPage() {
                     <FormMessage />
                   </FormItem>
                 )}
+              /> */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className={styles.passwordWrapper}>
+                    <FormControl>
+                      <div className={styles.passwordInputContainer}>
+                        <Input
+                          className={styles.input}
+                          type={showPassword ? "text" : "password"}
+                          placeholder="****"
+                          {...field}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          className={styles.toggleButton}
+                          aria-label="Toggle password visibility"
+                        >
+                          {showPassword ? (
+                            <EyeOff size={16} />
+                          ) : (
+                            <Eye size={16} />
+                          )}
+                        </button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
               <div
                 className={styles.forgotPassword}
-                onClick={() => router.replace("/signup")}
+                // onClick={() => router.replace("/signup")}
               >
-                Register
+                Forgot Password?
               </div>
               <Button
                 disabled={isPending}
@@ -132,6 +170,12 @@ export default function LoginPage() {
                 <ArrowRight />
               </Button>
             </form>
+            <div
+              className={styles.signupText}
+              onClick={() => router.replace("/signup")}
+            >
+              Don't have an Account? Register
+            </div>
           </Form>
         </div>
       </div>

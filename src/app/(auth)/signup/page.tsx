@@ -19,11 +19,18 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { ArrowRight, Loader, MailCheckIcon } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, Loader, MailCheckIcon } from "lucide-react";
 
 export default function SignupPage() {
   const router = useRouter();
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: registerMutationFn,
@@ -62,11 +69,11 @@ export default function SignupPage() {
     mutate(values, {
       onSuccess: (res) => {
         setIsSubmitted(true);
-        toast(res.data.message);
+        toast.success(res.data.message);
         // router.replace("/")
       },
       onError: (error) => {
-        toast(error.message);
+        toast.error(error.message);
       },
     });
   };
@@ -83,7 +90,6 @@ export default function SignupPage() {
             className={styles.logo}
           />
         </div>
-
         <img
           src="/assets/images/pablo-sign-in.png"
           alt="Logo"
@@ -134,7 +140,7 @@ export default function SignupPage() {
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="password"
                   render={({ field }) => (
@@ -150,8 +156,72 @@ export default function SignupPage() {
                       <FormMessage />
                     </FormItem>
                   )}
+                /> */}
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem className={styles.passwordWrapper}>
+                      <FormControl>
+                        <div className={styles.passwordInputContainer}>
+                          <Input
+                            className={styles.input}
+                            type={showPassword ? "text" : "password"}
+                            placeholder="****"
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            className={styles.toggleButton}
+                            aria-label="Toggle password visibility"
+                          >
+                            {showPassword ? (
+                              <EyeOff size={16} />
+                            ) : (
+                              <Eye size={16} />
+                            )}
+                          </button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
                 <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem className={styles.passwordWrapper}>
+                      <FormControl>
+                        <div className={styles.passwordInputContainer}>
+                          <Input
+                            className={styles.input}
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="****"
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setShowConfirmPassword((prev) => !prev)
+                            }
+                            className={styles.toggleButton}
+                            aria-label="Toggle password visibility"
+                          >
+                            {showConfirmPassword ? (
+                              <EyeOff size={16} />
+                            ) : (
+                              <Eye size={16} />
+                            )}
+                          </button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* <FormField
                   control={form.control}
                   name="confirmPassword"
                   render={({ field }) => (
@@ -167,14 +237,8 @@ export default function SignupPage() {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
-                <div
-                  className={styles.forgotPassword}
-                  onClick={() => router.replace("/")}
-                >
-                  Login
-                </div>
                 <Button
                   disabled={isPending}
                   type="submit"
@@ -185,21 +249,25 @@ export default function SignupPage() {
                   <ArrowRight />
                 </Button>
               </form>
+              <div
+                className={styles.forgotPassword}
+                onClick={() => router.replace("/")}
+              >
+                Already have an Account? Login
+              </div>
             </Form>
           </div>
         ) : (
-          <div className="w-full h-[80vh] flex flex-col gap-2 items-center justify-center rounded-md">
-            <div className="size-[48px]">
+          <div className={styles.emailSent}>
+            <div>
               <MailCheckIcon size="48px" className="animate-bounce" />
             </div>
-            <h2 className="text-xl tracking-[-0.16px] dark:text-[#fcfdffef] font-bold">
-              Check your email
-            </h2>
-            <p className="mb-2 text-center text-sm text-muted-foreground dark:text-[#f1f7feb5] font-normal">
+            <h2 className={styles.heading}>Check your email</h2>
+            <p className={styles.subtext}>
               We just sent a verification link to {form.getValues().email}.
             </p>
-            <Link href="/">
-              <Button className="h-[40px] hover:bg-blue-700 bg-blue-500 text-white">
+            <Link href="/" className="w-1/2">
+              <Button className={styles.loginButton}>
                 Go to login
                 <ArrowRight />
               </Button>

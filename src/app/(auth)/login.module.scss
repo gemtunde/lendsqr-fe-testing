@@ -80,6 +80,14 @@
 }
 
 .forgotPassword {
+  text-align: left;
+  color: #39cdcc;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+.signupText {
+  margin-top: 1rem;
   text-align: right;
   color: #39cdcc;
   font-size: 0.875rem;
@@ -90,4 +98,28 @@
   background-color: #39cdcc;
   color: white;
   font-weight: 600;
+}
+.passwordWrapper {
+  position: relative;
+}
+
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input {
+  width: 100%;
+  padding-right: 2.5rem;
+}
+
+.toggleButton {
+  position: absolute;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #6b7280; // gray-500
 }
