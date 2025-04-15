@@ -3,7 +3,8 @@ import React from "react";
 import { Users, Users2, PiggyBank, DatabaseIcon } from "lucide-react";
 import UsersTable from "../_components/common/UsersTable";
 import UserStatsCard from "../_components/common/UserStatsCard";
-import styles from "../../styles/home.module.scss";
+import styles from "../home/home.module.scss";
+//import styles from "../../styles/home.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUsers } from "@/services/useServices";
 

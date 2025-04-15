@@ -42,6 +42,9 @@ export const fetchUsers = async (): Promise<User[]> => {
       children: user.children || 0,
       residence: user?.residence,
       education: user?.education,
+      accountBalance: user?.accountBalance || 0,
+      accountNumber: user?.accountNumber || 0,
+      bankName: user?.bankName || "N/A",
       socials: user?.socials,
       guarantor: user?.guarantor,
     }));

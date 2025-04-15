@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useEffect, useState } from "react";
-import styles from "../../../styles/header.module.scss";
+import styles from "./header.module.scss";
 import Image from "next/image";
 import { useUser } from "@/context/auth-provider";
 

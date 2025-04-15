@@ -1,6 +1,5 @@
 import React from "react";
-import styles from "../../../styles/userStatsCard.module.scss";
-//import styles from './UserStatsCard.module.scss';
+import styles from "./UserStatsCard.module.scss";
 
 interface UserStatsCardProps {
   title: string;

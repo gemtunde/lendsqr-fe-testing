@@ -1,5 +1,5 @@
 import { ChevronDown } from "lucide-react";
-import styles from "../../../styles/sidebar.module.scss";
+import styles from "./sidebar.module.scss";
 
 import {
   Sidebar,
