@@ -52,19 +52,30 @@ export default function LoginPage() {
       password: "",
     },
   });
-
+  const data = {
+    name: "Tunde Isaac",
+    email: "tunde@lendsqr.com",
+    isEmailVerified: true,
+  };
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate(values, {
-      onSuccess: (res) => {
-        toast.success(res.data.message);
-        const { name, email, isEmailVerified } = res.data.loginUser;
-        setUser({ name, email, isEmailVerified });
-        router.replace("/home");
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
+    const { name, email, isEmailVerified } = data;
+    setUser({ name, email, isEmailVerified });
+    console.log("values", values);
+    router.replace("/home");
+
+    // i had to comment this out because of issues with hosting the backend
+
+    // mutate(values, {
+    //   onSuccess: (res) => {
+    //     toast.success(res.data.message);
+    //     const { name, email, isEmailVerified } = res.data.loginUser;
+    //     setUser({ name, email, isEmailVerified });
+    //     router.replace("/home");
+    //   },
+    //   onError: (error) => {
+    //     toast.error(error.message);
+    //   },
+    // });
   };
 
   return (

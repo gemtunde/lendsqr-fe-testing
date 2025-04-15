@@ -1,10 +1,9 @@
-//import { User } from "@/app/(main)/home/page";
 import { User } from "@/app/(main)/users/page";
 import axios from "axios";
-//import { User } from '@/pages/UsersPage';
 
 const USERS_API_URL =
-  "https://run.mocky.io/v3/d0554e40-06f4-4fba-b995-859380a27a8b";
+  "https://run.mocky.io/v3/c483dd42-3a5d-4ccf-9526-589d70c72fff";
+//"https://run.mocky.io/v3/d0554e40-06f4-4fba-b995-859380a27a8b";
 // "https://run.mocky.io/v3/bd073628-1f33-417a-9c95-f394e81532c6";
 
 export const fetchUsers = async (): Promise<User[]> => {

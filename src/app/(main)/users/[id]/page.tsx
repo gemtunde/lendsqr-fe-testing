@@ -24,6 +24,7 @@ export default function UserDetailsPage() {
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isVerified, setIsVerified] = useState(true);
   const [activeTab, setActiveTab] = useState("general");
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export default function UserDetailsPage() {
     if (user) {
       const updatedUser = { ...user, status: newStatus };
       setUser(updatedUser);
-
+      setIsVerified(!isVerified);
       toast(
         `User has been successfully ${newStatus === "Blacklisted" ? "blacklisted" : "activated"}.`
       );
@@ -85,21 +86,23 @@ export default function UserDetailsPage() {
       <div className={styles.header}>
         <h1 className={styles.title}>User Details</h1>
         <div className={styles.actions}>
-          <Button
-            variant="outline"
-            className={styles.activateButton}
-            onClick={() => handleStatusChange("Active")}
-          >
-            ACTIVATE USER
-          </Button>
-
-          <Button
-            variant="outline"
-            className={styles.blacklistButton}
-            onClick={() => handleStatusChange("Blacklisted")}
-          >
-            BLACKLIST USER
-          </Button>
+          {isVerified ? (
+            <Button
+              variant="outline"
+              className={styles.blacklistButton}
+              onClick={() => handleStatusChange("Blacklisted")}
+            >
+              BLACKLIST USER
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              className={styles.activateButton}
+              onClick={() => handleStatusChange("Active")}
+            >
+              ACTIVATE USER
+            </Button>
+          )}
         </div>
       </div>
 

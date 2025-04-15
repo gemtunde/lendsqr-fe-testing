@@ -67,16 +67,20 @@ export default function SignupPage() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate(values, {
-      onSuccess: (res) => {
-        setIsSubmitted(true);
-        toast.success(res.data.message);
-        // router.replace("/")
-      },
-      onError: (error) => {
-        toast.error(error.message);
-      },
-    });
+    console.log("values", values);
+
+    // i had to comment this out because of issues with hosting the backend
+
+    // mutate(values, {
+    //   onSuccess: (res) => {
+    //     setIsSubmitted(true);
+    //     toast.success(res.data.message);
+    //     // router.replace("/")
+    //   },
+    //   onError: (error) => {
+    //     toast.error(error.message);
+    //   },
+    // });
   };
 
   return (
