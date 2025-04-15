@@ -1,7 +1,7 @@
 Lendsqr Frontend Engineering Assessment
 A frontend engineering assessment project built with Next.js, TypeScript, SCSS Modules, and shadcn UI. The app demonstrates user authentication, dashboard layout, user management, and detailed user views.
 
-🔗 Live Demo
+🔗 Live Demo - https://gemtunde-elesho-lendsqr-fe-testing.vercel.app
 
 🚀 Tech Stack
 Next.js (App Router)
@@ -23,17 +23,29 @@ Modular Component Structure (scalable and maintainable)
 📁 Folder Structure Highlights
 
 /app
+
 /login
+
 /dashboard
+
 /users
+
 /user-details
+
 /components
+
 /ui (reusable components using shadcn)
+
 /shared
+
 /context
+
 /hooks
+
 /styles
+
 /utils
+
 
 🧭 App Navigation Guide
 The app consists of 4 main pages:
