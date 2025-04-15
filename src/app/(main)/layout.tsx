@@ -1,7 +1,8 @@
 "use client";
 
 import { JSX, ReactNode } from "react";
-import styles from "../styles/main-layout.module.scss";
+import styles from "./main-layout.module.scss";
+// import styles from "../styles/main-layout.module.scss";
 import Header from "./_components/common/Header";
 import DashboardSidebar from "./_components/common/Sidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
