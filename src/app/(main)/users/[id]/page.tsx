@@ -118,7 +118,9 @@ export default function UserDetailsPage() {
               <div className={styles.stars}>{getStars(4)}</div>
             </div>
             <div className={styles.userBalance}>
-              <h3>{user.accountBalance || "₦0.00"}</h3>
+              <h3>
+                {formatAmountWithCurrency(user.accountBalance) || "₦0.00"}
+              </h3>
               <p>
                 {user.accountNumber || "No account"}/
                 {user.bankName || "No bank"}

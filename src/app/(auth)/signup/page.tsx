@@ -20,6 +20,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ArrowRight, Eye, EyeOff, Loader, MailCheckIcon } from "lucide-react";
+import Image from "next/image";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -82,17 +83,19 @@ export default function SignupPage() {
     <div className={styles.loginContainer}>
       <div className={styles.leftSection}>
         <div className={styles.logoWrapper}>
-          {/* <Image src={Logo} alt="Logo" className={styles.logo} /> */}
-          <img
+          <Image
             src="/assets/images/logo.png"
-            // src="https://lendsqr.com/assets/icons/LSQ%20Logo.svg"
             alt="Logo"
+            width={120}
+            height={50}
             className={styles.logo}
           />
         </div>
-        <img
+        <Image
           src="/assets/images/pablo-sign-in.png"
-          alt="Logo"
+          alt="banner"
+          width={650}
+          height={400}
           className={styles.illustration}
         />
       </div>
