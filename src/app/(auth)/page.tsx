@@ -89,18 +89,19 @@ export default function LoginPage() {
             height={50}
             className={styles.logo}
           />
+
+          <Image
+            src="/assets/images/pablo-sign-in.png"
+            alt="banner"
+            width={650}
+            height={400}
+            className={styles.illustration}
+          />
         </div>
-        <Image
-          src="/assets/images/pablo-sign-in.png"
-          alt="banner"
-          width={650}
-          height={400}
-          className={styles.illustration}
-        />
       </div>
       <div className={styles.rightSection}>
         <div className={styles.formCard}>
-          <h1 className={styles.heading}>Login</h1>
+          <h1 className={styles.heading}>Welcome!</h1>
           <p className={styles.subtext}>Enter details to Login.</p>
           <Form {...form}>
             <form

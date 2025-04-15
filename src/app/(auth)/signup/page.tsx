@@ -94,14 +94,15 @@ export default function SignupPage() {
             height={50}
             className={styles.logo}
           />
+
+          <Image
+            src="/assets/images/pablo-sign-in.png"
+            alt="banner"
+            width={650}
+            height={400}
+            className={styles.illustration}
+          />
         </div>
-        <Image
-          src="/assets/images/pablo-sign-in.png"
-          alt="banner"
-          width={650}
-          height={400}
-          className={styles.illustration}
-        />
       </div>
       <div className={styles.rightSection}>
         {!isSubmitted ? (

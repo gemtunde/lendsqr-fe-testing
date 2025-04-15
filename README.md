@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Lendsqr Frontend Engineering Assessment
+A frontend engineering assessment project built with Next.js, TypeScript, SCSS Modules, and shadcn UI. The app demonstrates user authentication, dashboard layout, user management, and detailed user views.
 
-## Getting Started
+🔗 Live Demo
 
-First, run the development server:
+🚀 Tech Stack
+Next.js (App Router)
 
-```bash
+TypeScript
+
+SCSS Modules (modular styling)
+
+shadcn UI (for accessible, reusable UI components)
+
+Axios (for HTTP requests)
+
+Context API (for state management)
+
+LocalStorage (for persisting user data)
+
+Modular Component Structure (scalable and maintainable)
+
+📁 Folder Structure Highlights
+
+/app
+/login
+/dashboard
+/users
+/user-details
+/components
+/ui (reusable components using shadcn)
+/shared
+/context
+/hooks
+/styles
+/utils
+
+🧭 App Navigation Guide
+The app consists of 4 main pages:
+
+1. 🔐 Login Page
+   Route: /login
+
+Enter any credentials to simulate login (authentication is mocked).
+
+On successful login, you're redirected to the dashboard.
+
+Login response is stored using Context API.
+
+2. 🧭 Dashboard Page
+   Route: /dashboard
+
+Displays layout with sidebar navigation.
+
+Acts as the landing page post-login.
+
+3. 👥 Users Page
+   Route: /users
+
+Fetches a list of 500 users from a mock API using Axios.
+
+User data is stored in localStorage for persistence.
+
+Features include search and filter options using reusable components.
+
+4. 📄 User Details Page
+   Route: /user-details/:userId
+
+Fetches user data from localStorage using the ID.
+
+Displays detailed information in a well-structured layout with tabs (General Details, Documents, Bank Details, etc.).
+
+🧪 Features
+✅ Mocked login flow with state management via Context API
+
+✅ Responsive layout with modular SCSS styling
+
+✅ Reusable UI components using shadcn
+
+✅ Efficient data fetching and caching with Axios, Tanstack/Query and localStorage
+
+✅ Structured and scalable folder architecture
+
+🛠️ Running Locally
+
+git clone https://github.com/your-username/lendsqr-fe-assessment.git
+cd lendsqr-fe-assessment
+
+# Install dependencies
+
+npm install
+
+# Run the development server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Open in browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
+📌 Notes
+This is a demo project for an interview task and uses mocked authentication.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All users are fetched once and persisted to localStorage to simulate backend querying.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with scalability and modularity in mind using modern frontend best practices.
